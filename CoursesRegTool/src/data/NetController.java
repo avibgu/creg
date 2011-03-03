@@ -33,6 +33,30 @@ public class NetController {
 		
 		setInBuff(new BufferedReader( new InputStreamReader( getBguUrlConnection().getInputStream())));
 	}
+	
+	public NetController(String subFolder) throws IOException {
+		
+		setBguUrl(new URL("http", "bgu4u.bgu.ac.il", subFolder));
+		setBguUrlConnection(openConnection());
+		setDoOutput(true);
+		
+		setOutStrWriter(new OutputStreamWriter(getBguUrlConnection().getOutputStream()));
+		
+		setInBuff(new BufferedReader( new InputStreamReader( getBguUrlConnection().getInputStream())));
+	}
+	
+	public void changeURLSubFolder(String subFolder) throws IOException{
+		
+		closeConnection();
+		
+		setBguUrl(new URL("http", "bgu4u.bgu.ac.il", subFolder));
+		setBguUrlConnection(openConnection());
+		setDoOutput(true);
+		
+		setOutStrWriter(new OutputStreamWriter(getBguUrlConnection().getOutputStream()));
+		
+		setInBuff(new BufferedReader( new InputStreamReader( getBguUrlConnection().getInputStream())));
+	}
 
 	public void sendMessage(Message msg) throws IOException{
 

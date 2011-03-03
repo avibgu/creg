@@ -43,6 +43,9 @@ public class Controller {
 		
 		//	TODO:	get the rc_rowid from the server.
 		//			for that, send login message and get the rc_rowid value from the html message
+		//			do: nc.changeURLSubFolder("/html/yeutz/time_windows.php");
+		//			and then connect.
+
 		String rc_rowid = "";
 		
 		get_userInfo().setRc_rowid(rc_rowid);
