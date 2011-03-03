@@ -7,7 +7,7 @@ package data.message;
  * @author Avi Digmi
  *
  */
-public class RegMessage {
+public class RegMessage implements Message {
 
 	private String _year;
 	private String _semester;
@@ -46,7 +46,8 @@ public class RegMessage {
 		set_groupNumber(_groupNumber);
 	}
 
-	public String toString(){
+	@Override
+	public String getMessage() {
 		
 		String msg =	"rc_rowid=" + get_rowID() + "&" +
 						"rn_student_degree=1&" +
