@@ -22,18 +22,7 @@ public class NetController {
 	private URLConnection bguUrlConnection;
 	private BufferedReader inBuff;
 	private OutputStreamWriter outStrWriter;
-	
-	public NetController() throws IOException {
-		
-		setBguUrl(new URL("http://bgu4u.bgu.ac.il"));
-		setBguUrlConnection(openConnection());
-		setDoOutput(true);
-		
-		setOutStrWriter(new OutputStreamWriter(getBguUrlConnection().getOutputStream()));
-		
-		setInBuff(new BufferedReader( new InputStreamReader( getBguUrlConnection().getInputStream())));
-	}
-	
+
 	public NetController(String subFolder) throws IOException {
 		
 		setBguUrl(new URL("http", "bgu4u.bgu.ac.il", subFolder));
