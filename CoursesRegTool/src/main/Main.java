@@ -2,7 +2,8 @@ package main;
 
 import java.io.IOException;
 
-import cli.Cli;
+import presentation.cli.Cli;
+
 import data.Controller;
 
 /**
