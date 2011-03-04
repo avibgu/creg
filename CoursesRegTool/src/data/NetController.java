@@ -1,16 +1,15 @@
+package data;
+
 /**
  * 
  */
-package data;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLConnection;
-
-import data.message.Message;
 
 /**
  * @author Avi Digmi
@@ -19,57 +18,71 @@ import data.message.Message;
 public class NetController {
 
 	private URL bguUrl;
-	private URLConnection bguUrlConnection;
+	private HttpURLConnection bguUrlConnection;
+	private OutputStream outputStream;
 	private BufferedReader inBuff;
-	private OutputStreamWriter outStrWriter;
 
-	public NetController(String subFolder) throws IOException {
+	public NetController() throws IOException {
 		
-		setBguUrl(new URL("http", "bgu4u.bgu.ac.il", subFolder));
-		setBguUrlConnection(openConnection());
-		setDoOutput(true);
-		
-		setOutStrWriter(new OutputStreamWriter(getBguUrlConnection().getOutputStream()));
-		
+		setBguUrl(new URL("http://www.google.com"));
+		setBguUrlConnection((HttpURLConnection)getBguUrl().openConnection());
+		setOutputStream(getBguUrlConnection().getOutputStream());
 		setInBuff(new BufferedReader( new InputStreamReader( getBguUrlConnection().getInputStream())));
+	}
+
+	public String connectSendAndReceiveMessage(String subFolder, String message) throws IOException{
+		
+		setBguUrl(new URL("http","bgu4u.bgu.ac.il",subFolder));
+
+		setBguUrlConnection((HttpURLConnection)getBguUrl().openConnection());
+
+		setDoInput(true);
+		setDoOutput(true);
+
+		connect();
+		
+		setOutputStream(getBguUrlConnection().getOutputStream());
+
+		sendMessage(message);
+
+		setInBuff(new BufferedReader( new InputStreamReader( getBguUrlConnection().getInputStream())));
+
+		String respone = receiveMessage();
+
+		disconnect();
+
+		return respone;
 	}
 	
-	public void changeURLSubFolder(String subFolder) throws IOException{
-		
-		closeConnection();
-		
-		setBguUrl(new URL("http", "bgu4u.bgu.ac.il", subFolder));
-		setBguUrlConnection(openConnection());
-		setDoOutput(true);
-		
-		setOutStrWriter(new OutputStreamWriter(getBguUrlConnection().getOutputStream()));
-		
-		setInBuff(new BufferedReader( new InputStreamReader( getBguUrlConnection().getInputStream())));
+	private void setDoOutput(boolean b) {
+		getBguUrlConnection().setDoOutput(b);
 	}
 
-	public void sendMessage(Message msg) throws IOException{
+	private void setDoInput(boolean b) {
+		getBguUrlConnection().setDoInput(b);
+	}
 
-		getOutStrWriter().write(msg.getMessage());
+	private void connect() throws IOException {
+		getBguUrlConnection().connect();		
+	}
+
+	public void sendMessage(String message) throws IOException{
+
+		getOutputStream().write(message.getBytes());
 	}
 
 	public String receiveMessage() throws IOException{
 
-		String inputLine;
-		String message = "";
+		String inputLine = "";
+		String respone = "";
 
-		while ((inputLine = getInBuff().readLine()) != null){
-			
-			message += inputLine;
-			System.out.println(inputLine);	//	TODO: remove it..
-		}
-
-		return message;
+		while ((inputLine = inBuff.readLine()) != null) respone += inputLine;
+		
+		return respone;
 	}
 	
-	public void closeConnection() throws IOException{
-		
-		getInBuff().close();
-		getOutStrWriter().close();
+	private void disconnect() throws IOException {
+		getBguUrlConnection().disconnect();		
 	}
 
 	public void setBguUrl(URL bguUrl) {
@@ -79,36 +92,28 @@ public class NetController {
 	public URL getBguUrl() {
 		return bguUrl;
 	}
-	
-	public URLConnection openConnection() throws IOException {
-		return getBguUrl().openConnection();
-	}
-	
-	private void setDoOutput(boolean b) {
-		getBguUrlConnection().setDoOutput(b);
+
+	public void setBguUrlConnection(HttpURLConnection bguUrlConnection) {
+		this.bguUrlConnection = bguUrlConnection;
 	}
 
-	public void setInBuff(BufferedReader inBuff) {
-		this.inBuff = inBuff;
+	public HttpURLConnection getBguUrlConnection() {
+		return bguUrlConnection;
 	}
 
+	public void setOutputStream(OutputStream outputStream) {
+		this.outputStream = outputStream;
+	}
+
+	public OutputStream getOutputStream() {
+		return outputStream;
+	}
+	
 	public BufferedReader getInBuff() {
 		return inBuff;
 	}
 
-	public void setBguUrlConnection(URLConnection bguUrlConnection) {
-		this.bguUrlConnection = bguUrlConnection;
-	}
-
-	public URLConnection getBguUrlConnection() {
-		return bguUrlConnection;
-	}
-
-	public void setOutStrWriter(OutputStreamWriter outStrWriter) {
-		this.outStrWriter = outStrWriter;
-	}
-
-	public OutputStreamWriter getOutStrWriter() {
-		return outStrWriter;
+	public void setInBuff(BufferedReader inBuff) {
+		this.inBuff = inBuff;
 	}
 }
