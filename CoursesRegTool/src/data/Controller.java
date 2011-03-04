@@ -46,15 +46,16 @@ public class Controller {
 	
 	public void startTheRegistration() {
 		
-		//	TODO: use LoginMessage instead..
-
+		set_loginMsg(new LoginMessage(get_userInfo().getUsername(),
+				get_userInfo().getPassword(), get_userInfo().getId()));
+		
 		String rc_rowid;
 		
 		while(true){
 			
 			try {
 				
-				rc_rowid = getNetController().connectSendAndReceiveMessage("/pls/scwp/!fw.checkId", "oc_username=admin&oc_password=Password1&rc_id=12345678&rc_system=sc");
+				rc_rowid = getNetController().connectSendAndReceiveMessage("/pls/scwp/!fw.checkId", get_loginMsg());
 				break;
 			}
 			catch (IOException e) { e.printStackTrace(); }

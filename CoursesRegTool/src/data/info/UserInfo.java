@@ -15,6 +15,13 @@ public class UserInfo {
 	private String _rc_rowid;
 	
 	/**
+	 * 
+	 */
+	public UserInfo() {
+		super();
+	}
+	
+	/**
 	 * @param username
 	 * @param password
 	 * @param id like 0393..
@@ -23,17 +30,10 @@ public class UserInfo {
 	public UserInfo(String username, String password, String id, String rc_rowid) {
 		
 		super();
-		this._username = username;
-		this._password = password;
-		this._id = id;
-		this._rc_rowid = rc_rowid;
-	}
-
-	/**
-	 * 
-	 */
-	public UserInfo() {
-		super();
+		setUsername(username);
+		setPassword(password);
+		setId(id);
+		setRc_rowid(rc_rowid);
 	}
 
 	public UserInfo(String username, String password, String id) {

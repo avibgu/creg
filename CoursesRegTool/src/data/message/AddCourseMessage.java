@@ -7,7 +7,7 @@ package data.message;
  * @author Avi Digmi
  *
  */
-public class RegMessage implements Message {
+public class AddCourseMessage implements Message {
 
 	private String _year;
 	private String _semester;
@@ -30,7 +30,7 @@ public class RegMessage implements Message {
 	 * @param _courseType
 	 * @param _groupNumber
 	 */
-	public RegMessage(String _year, String _semester, String _department,
+	public AddCourseMessage(String _year, String _semester, String _department,
 			String _level, String _course, String _rowID,
 			String _course_consult_msg, String _courseType, String _groupNumber) {
 

@@ -27,11 +27,11 @@ public class CourseInfo {
 	 * @param _level
 	 * @param group 
 	 */
-	public CourseInfo(String _semester, String _department, String _level, String group) {
+	public CourseInfo(String semester, String department, String level, String group) {
 		super();
-		set_semester(_semester);
-		set_department(_department);
-		set_level(_level);
+		set_semester(semester);
+		set_department(department);
+		set_level(level);
 		set_group(group);
 	}
 
