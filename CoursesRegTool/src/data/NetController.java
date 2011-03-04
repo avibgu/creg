@@ -11,6 +11,8 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import data.message.Message;
+
 /**
  * @author Avi Digmi
  *
@@ -22,12 +24,16 @@ public class NetController {
 	private OutputStream outputStream;
 	private BufferedReader inBuff;
 
-	public NetController() throws IOException {
+	public NetController(){
 		
 		setBguUrl(null);
 		setBguUrlConnection(null);
 		setOutputStream(null);
 		setInBuff(null);
+	}
+	
+	public String connectSendAndReceiveMessage(String subFolder, Message message) throws IOException{
+		return connectSendAndReceiveMessage(subFolder,message.getMessage());
 	}
 
 	public String connectSendAndReceiveMessage(String subFolder, String message) throws IOException{

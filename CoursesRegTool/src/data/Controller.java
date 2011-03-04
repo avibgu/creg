@@ -3,6 +3,7 @@
  */
 package data;
 
+import java.io.IOException;
 import java.util.Vector;
 
 import main.RegThread;
@@ -16,6 +17,8 @@ import data.message.LoginMessage;
  *
  */
 public class Controller {
+	
+	private NetController netController;
 
 	private UserInfo _userInfo;
 	private Vector<CourseInfo> _coursesInfo;
@@ -29,6 +32,8 @@ public class Controller {
 		
 		super();
 		
+		setNetController(new NetController());
+		
 		//	prepare a class to hold the user information
 		set_userInfo(new UserInfo());
 		
@@ -41,12 +46,19 @@ public class Controller {
 	
 	public void startTheRegistration() {
 		
-		//	TODO:	get the rc_rowid from the server.
-		//			for that, send login message and get the rc_rowid value from the html message
-		//			do: new NetController("/html/yeutz/time_windows.php");
-		//			and then connect.
+		//	TODO: use LoginMessage instead..
 
-		String rc_rowid = "";
+		String rc_rowid;
+		
+		while(true){
+			
+			try {
+				
+				rc_rowid = getNetController().connectSendAndReceiveMessage("/pls/scwp/!fw.checkId", "oc_username=admin&oc_password=Password1&rc_id=12345678&rc_system=sc");
+				break;
+			}
+			catch (IOException e) { e.printStackTrace(); }
+		}
 		
 		get_userInfo().setRc_rowid(rc_rowid);
 		
@@ -105,5 +117,13 @@ public class Controller {
 
 	public LoginMessage get_loginMsg() {
 		return _loginMsg;
+	}
+
+	public void setNetController(NetController netController) {
+		this.netController = netController;
+	}
+
+	public NetController getNetController() {
+		return netController;
 	}
 }
