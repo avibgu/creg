@@ -24,10 +24,10 @@ public class NetController {
 
 	public NetController() throws IOException {
 		
-		setBguUrl(new URL("http://www.google.com"));
-		setBguUrlConnection((HttpURLConnection)getBguUrl().openConnection());
-		setOutputStream(getBguUrlConnection().getOutputStream());
-		setInBuff(new BufferedReader( new InputStreamReader( getBguUrlConnection().getInputStream())));
+		setBguUrl(null);
+		setBguUrlConnection(null);
+		setOutputStream(null);
+		setInBuff(null);
 	}
 
 	public String connectSendAndReceiveMessage(String subFolder, String message) throws IOException{
@@ -66,12 +66,12 @@ public class NetController {
 		getBguUrlConnection().connect();		
 	}
 
-	public void sendMessage(String message) throws IOException{
+	private void sendMessage(String message) throws IOException{
 
 		getOutputStream().write(message.getBytes());
 	}
 
-	public String receiveMessage() throws IOException{
+	private String receiveMessage() throws IOException{
 
 		String inputLine = "";
 		String respone = "";
