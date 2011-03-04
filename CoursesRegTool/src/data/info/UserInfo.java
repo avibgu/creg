@@ -37,7 +37,11 @@ public class UserInfo {
 	}
 
 	public UserInfo(String username, String password, String id) {
-		// TODO Auto-generated constructor stub
+		
+		super();
+		setUsername(username);
+		setPassword(password);
+		setId(id);
 	}
 
 	public String getUsername() {

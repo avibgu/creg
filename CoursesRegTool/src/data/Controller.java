@@ -23,9 +23,6 @@ public class Controller {
 	private UserInfo _userInfo;
 	private Vector<CourseInfo> _coursesInfo;
 	
-	private String _year;
-	private String _semester;
-	
 	private LoginMessage _loginMsg;
 
 	public Controller() {
@@ -90,22 +87,6 @@ public class Controller {
 
 	public void set_userInfo(String username, String password, String id) {
 		set_userInfo( new UserInfo(username, password, id) );
-	}
-
-	public void setYear(String year) {
-		this._year = year;
-	}
-	
-	public String get_year() {
-		return _year;
-	}
-
-	public void setSemester(String semester) {
-		this._semester = semester;
-	}
-
-	public String get_semester() {
-		return _semester;
 	}
 
 	public void addCourse(String department, String level, String course, String group) {

@@ -29,15 +29,6 @@ public class Cli {
 		String id = get_br().readLine();
 
 		get_controller().set_userInfo(username, password, id);
-		
-		//	get information about the year/semester		
-		System.out.print("Enter Year (2011, 2012..): ");
-		String year = get_br().readLine();
-		System.out.print("Enter Semester (1,2,3): ");
-		String Semester = get_br().readLine();
-
-		get_controller().setYear(year);
-		get_controller().setSemester(Semester);
 
 		while(true){
 
