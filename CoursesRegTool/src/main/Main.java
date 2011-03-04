@@ -38,7 +38,7 @@ public class Main {
 //
 //			try {
 //				
-//				respone = nc.connectSendAndReceiveMessage("/pls/scwp/!fw.checkId", "oc_username=digmia&oc_password=bNei96--&rc_id=039369061&rc_system=sc");
+//				respone = nc.connectSendAndReceiveMessage("/pls/scwp/!fw.checkId", "oc_username=admin&oc_password=Password1&rc_id=123456789&rc_system=sc");
 //				System.out.println(respone);
 //				System.out.println("=====================================================");
 //
