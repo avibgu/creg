@@ -9,7 +9,6 @@ import data.NetController;
 import data.info.CourseInfo;
 import data.info.UserInfo;
 import data.message.AcademicLoginMessage;
-import data.message.AddCourseMessage;
 import data.message.AddSemesterMessage;
 
 /**
@@ -62,6 +61,8 @@ public class RegThread implements Runnable {
 						splittedAnswer[17]));
 				
 				answer = getNetController().connectSendAndReceiveMessage("/pls/scwp/!sc.AddSemester", get_addSemesterMessage());
+				
+				//	TODO: continue from here.. generate the next packet..
 				
 				break;
 			}
