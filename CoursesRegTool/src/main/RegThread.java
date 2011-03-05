@@ -3,8 +3,10 @@
  */
 package main;
 
+import data.Counter;
 import data.NetController;
 import data.info.CourseInfo;
+import data.info.RegInfo;
 import data.info.UserInfo;
 
 /**
@@ -17,13 +19,18 @@ public class RegThread implements Runnable {
 	
 	private CourseInfo _courseInfo;
 	private UserInfo _userInfo;
+	private RegInfo _regInfo;
+	
+	private Counter _counter;
 
-	public RegThread(CourseInfo cInfo, UserInfo uInfo) {
+	public RegThread(CourseInfo cInfo, UserInfo uInfo, RegInfo regInfo, Counter counter) {
 
 		super();
 		setNetController(new NetController());
 		set_courseInfo(cInfo);
 		set_userInfo(uInfo);
+		set_regInfo(regInfo);
+		set_counter(counter);
 	}
 
 	/* (non-Javadoc)
@@ -46,6 +53,8 @@ public class RegThread implements Runnable {
 			//}
 			//catch (IOException e) { e.printStackTrace(); }
 		}
+		
+		get_counter().decrease();
 	}
 
 	public void setNetController(NetController netController) {
@@ -70,5 +79,21 @@ public class RegThread implements Runnable {
 
 	public void set_userInfo(UserInfo _userInfo) {
 		this._userInfo = _userInfo;
+	}
+
+	public void set_regInfo(RegInfo _regInfo) {
+		this._regInfo = _regInfo;
+	}
+
+	public RegInfo get_regInfo() {
+		return _regInfo;
+	}
+
+	public void set_counter(Counter _counter) {
+		this._counter = _counter;
+	}
+
+	public Counter get_counter() {
+		return _counter;
 	}
 }

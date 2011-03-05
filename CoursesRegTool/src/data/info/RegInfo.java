@@ -26,6 +26,9 @@ public class RegInfo {
 	
 	private String _on_course_type;
 	private String _rn_consult_term;
+	
+	private String _rn_consult_status;			// doesn't need it for the registration message
+	
 	private String _oc_course_consult_msg;
 	private String _on_waiting_group;
 	private String _on_next_action;
@@ -114,6 +117,14 @@ public class RegInfo {
 
 	public void set_rn_consult_term(String _rn_consult_term) {
 		this._rn_consult_term = _rn_consult_term;
+	}
+
+	public void set_rn_consult_status(String _rn_consult_status) {
+		this._rn_consult_status = _rn_consult_status;
+	}
+
+	public String get_rn_consult_status() {
+		return _rn_consult_status;
 	}
 
 	public String get_oc_course_consult_msg() {
