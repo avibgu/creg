@@ -13,9 +13,7 @@ public class LoginMessage implements Message{
 	private String _password;
 	private String _id;
 	
-	public LoginMessage() {
-		// TODO Auto-generated constructor stub
-	}
+	public LoginMessage() {}
 
 	/**
 	 * @param _username

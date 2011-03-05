@@ -42,9 +42,7 @@ public class RegInfo {
 	
 	private String _mainSet;
 	
-	public RegInfo() {
-		// TODO Auto-generated constructor stub
-	}
+	public RegInfo() {}
 
 	public String get_rn_student_degree() {
 		return _rn_student_degree;

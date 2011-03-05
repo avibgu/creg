@@ -20,9 +20,7 @@ public class AddSemesterMessage implements Message {
 	private String _rn_consult_term;
 	private String _rn_consult_status;
 	
-	public AddSemesterMessage() {
-		// TODO Auto-generated constructor stub
-	}
+	public AddSemesterMessage() {}
 
 	/**
 	 * @param _rc_rowid
