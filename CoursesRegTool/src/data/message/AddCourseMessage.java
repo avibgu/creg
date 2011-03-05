@@ -15,7 +15,6 @@ public class AddCourseMessage implements Message {
 	private String _level;
 	private String _course;
 	private String _rowID;
-	private String _course_consult_msg;
 	private String _courseType;
 	private String _groupNumber;
 
@@ -31,8 +30,7 @@ public class AddCourseMessage implements Message {
 	 * @param _groupNumber
 	 */
 	public AddCourseMessage(String _year, String _semester, String _department,
-			String _level, String _course, String _rowID,
-			String _course_consult_msg, String _courseType, String _groupNumber) {
+			String _level, String _course, String _rowID, String _courseType, String _groupNumber) {
 
 		super();
 		set_year(_year);
@@ -41,7 +39,6 @@ public class AddCourseMessage implements Message {
 		set_level(_level);
 		set_course(_course);
 		set_rowID(_rowID);
-		set_course_consult_msg(_course_consult_msg);
 		set_courseType(_courseType);
 		set_groupNumber(_groupNumber);
 	}
@@ -62,7 +59,7 @@ public class AddCourseMessage implements Message {
 						"rn_course=" + get_course() + "&" +
 						"on_course_type=" + get_courseType() + "&" +
 						"rn_consult_term=0&" +
-						"oc_course_consult_msg=" + get_course_consult_msg() + "&" +
+						"oc_course_consult_msg=%F8%E9%F9%E5%ED+%EC%F7%E5%F8%F1+%E1%E5%F6%F2+%E1%E4%F6%EC%E7%E4&" +
 						"on_waiting_group=&" +
 						"on_next_action=&" +
 						"rn_course_exists=0&" +
@@ -74,7 +71,7 @@ public class AddCourseMessage implements Message {
 						"rn_StudentAuthorization_semester=" + get_semester() + "&" +
 						"rn_CoursesPrintout_semester=" + get_semester() + "&" +
 						"on_group_number_1=" + get_groupNumber() + "&" +
-						"mainSet=7";
+						"mainSet=7" + get_groupNumber();
 		
 		return msg;
 	}
@@ -125,14 +122,6 @@ public class AddCourseMessage implements Message {
 
 	public void set_rowID(String _rowID) {
 		this._rowID = _rowID;
-	}
-
-	public String get_course_consult_msg() {
-		return _course_consult_msg;
-	}
-
-	public void set_course_consult_msg(String _course_consult_msg) {
-		this._course_consult_msg = _course_consult_msg;
 	}
 
 	public String get_courseType() {
