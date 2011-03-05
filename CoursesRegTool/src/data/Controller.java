@@ -7,9 +7,12 @@ import java.io.IOException;
 import java.util.Vector;
 
 import main.RegThread;
+import main.StrManip;
 
 import data.info.CourseInfo;
 import data.info.UserInfo;
+import data.message.AcademicLoginMessage;
+import data.message.AddSemesterMessage;
 import data.message.LoginMessage;
 
 /**
@@ -24,6 +27,8 @@ public class Controller {
 	private Vector<CourseInfo> _coursesInfo;
 	
 	private LoginMessage _loginMsg;
+	private AcademicLoginMessage _academicLoginMessage;
+	private AddSemesterMessage _addSemesterMessage;
 
 	public Controller() {
 		
@@ -39,6 +44,12 @@ public class Controller {
 		
 		//	prepare a default login message
 		set_loginMsg(new LoginMessage());
+		
+		//	prepare a default academic login message
+		set_academicLoginMessage(new AcademicLoginMessage());
+		
+		//	prepare a default add semester message
+		set_addSemesterMessage(new AddSemesterMessage());
 	}
 	
 	public void startTheRegistration() {
@@ -46,23 +57,45 @@ public class Controller {
 		set_loginMsg(new LoginMessage(get_userInfo().getUsername(),
 				get_userInfo().getPassword(), get_userInfo().getId()));
 		
-		String rc_rowid;
+		String answer;
+		String[] splittedAnswer;
 		
 		while(true){
 			
 			try {
 				
-				rc_rowid = getNetController().connectSendAndReceiveMessage("/pls/scwp/!fw.checkId", get_loginMsg());
+				answer = getNetController().connectSendAndReceiveMessage("/pls/scwp/!fw.checkId", get_loginMsg());
+				
+				get_userInfo().setRc_rowid( StrManip.filterOutTheValueOf(answer, "rc_rowid") );
+				
+				set_academicLoginMessage(new AcademicLoginMessage(get_userInfo().getRc_rowid()));
+				
+				answer = getNetController().connectSendAndReceiveMessage("/pls/scwp/!sc.academiclogin", get_academicLoginMessage());
+				
+				splittedAnswer = StrManip.filterOutParamsForNextMessage(answer, "setFormActionAndSubmitAcLogInNew");
+				
+				//	TODO:	insert the data to RegInfo..
+				
+				set_addSemesterMessage(new AddSemesterMessage(splittedAnswer[1], splittedAnswer[3], splittedAnswer[5],
+						splittedAnswer[7], splittedAnswer[9], splittedAnswer[11], splittedAnswer[13], splittedAnswer[15],
+						splittedAnswer[17]));
+				
+				answer = getNetController().connectSendAndReceiveMessage("/pls/scwp/!sc.AddSemester", get_addSemesterMessage());
+				
+				//	TODO: continue from here.. get relevant info if there is such and save it in RegInfo..
+				
 				break;
 			}
 			catch (IOException e) { e.printStackTrace(); }
 		}
-		
-		get_userInfo().setRc_rowid(rc_rowid);
-		
+
 		//	generate and execute a registration thread for each course
 		for (CourseInfo cInfo: _coursesInfo)
-			new Thread(new RegThread(cInfo,get_userInfo()));
+			new Thread(new RegThread(cInfo,get_userInfo())).start();
+		
+		//	TODO:	wait all threads..
+		
+		//	TODO:	generate leave packet..
 	}
 
 	public UserInfo get_userInfo() {
@@ -107,5 +140,21 @@ public class Controller {
 
 	public NetController getNetController() {
 		return netController;
+	}
+
+	public void set_academicLoginMessage(AcademicLoginMessage _academicLoginMessage) {
+		this._academicLoginMessage = _academicLoginMessage;
+	}
+
+	public AcademicLoginMessage get_academicLoginMessage() {
+		return _academicLoginMessage;
+	}
+
+	public void set_addSemesterMessage(AddSemesterMessage _addSemesterMessage) {
+		this._addSemesterMessage = _addSemesterMessage;
+	}
+
+	public AddSemesterMessage get_addSemesterMessage() {
+		return _addSemesterMessage;
 	}
 }
