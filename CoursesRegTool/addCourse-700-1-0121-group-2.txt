@@ -1,0 +1,42 @@
+POST /pls/scwp/!sc.AddCourse HTTP/1.1
+
+Host: bgu4u.bgu.ac.il
+Connection: keep-alive
+Referer: http://bgu4u.bgu.ac.il/pls/scwp/!sc.CourseConsult
+Content-Length: 557
+Cache-Control: max-age=0
+Origin: http://bgu4u.bgu.ac.il
+Content-Type: application/x-www-form-urlencoded
+Accept: application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+User-Agent: Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US) AppleWebKit/534.13 (KHTML, like Gecko) Chrome/9.0.597.107 Safari/534.13
+Accept-Encoding: gzip,deflate,sdch
+Accept-Language: he-IL,he;q=0.8,en-US;q=0.6,en;q=0.4
+Accept-Charset: windows-1255,utf-8;q=0.7,*;q=0.3
+Cookie: SESSION_12910515=638942FFD40480B5
+
+rc_rowid=AAAlEuAAdAAA7VBAA4&
+rn_student_degree=1&
+rn_department=373&
+rn_degree_level=1&
+rn_student_path=1&
+rn_year=2011&
+rn_semester=2&
+rn_course_institution=0&
+rn_course_department=700&
+rn_course_degree_level=1&
+rn_course=121&
+on_course_type=7&
+rn_consult_term=0&
+oc_course_consult_msg=%F8%E9%F9%E5%ED+%EC%F7%E5%F8%F1+%E1%E5%F6%F2+%E1%E4%F6%EC%E7%E4&
+on_waiting_group=&
+on_next_action=&
+rn_course_exists=0&
+window=&
+width=&
+height=&
+rn_group_number_leftSpace=&
+rn_profile_leftSpace=&
+rn_StudentAuthorization_semester=2&
+rn_CoursesPrintout_semester=2&
+on_group_number_1=2&
+mainSet=2
