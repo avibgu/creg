@@ -16,6 +16,7 @@ import data.info.RegInfo;
 import data.info.UserInfo;
 import data.message.AcademicLoginMessage;
 import data.message.AddSemesterMessage;
+import data.message.ByeMessage;
 import data.message.LoginMessage;
 
 /**
@@ -33,6 +34,7 @@ public class Controller {
 	private LoginMessage _loginMsg;
 	private AcademicLoginMessage _academicLoginMessage;
 	private AddSemesterMessage _addSemesterMessage;
+	private ByeMessage _byeMessage;
 	
 	private ExecutorService _executor;
 	private Counter _counter;
@@ -60,6 +62,9 @@ public class Controller {
 		
 		//	prepare a default add semester message
 		set_addSemesterMessage(new AddSemesterMessage());
+		
+		//	prepare a default bye message
+		set_byeMessage(new ByeMessage());
 		
 		//	sets the executor to null
 		set_executor(null);
@@ -129,8 +134,23 @@ public class Controller {
 			catch (InterruptedException e) { e.printStackTrace(); }
 		}
 		
-		//	TODO:	generate leave packet..
+		//	generate leave packet
+		set_byeMessage(new ByeMessage(get_regInfo().get_rn_student_degree(), get_regInfo().get_rn_department(),
+				get_regInfo().get_rn_degree_level(), get_regInfo().get_rn_student_path(), get_regInfo().get_rn_year(),
+				get_regInfo().get_rn_semester(), get_regInfo().get_rn_consult_term(), get_userInfo().getRc_rowid(),
+				get_regInfo().get_rn_StudentAuthorization_semester(), get_regInfo().get_rn_CoursesPrintout_semester()));
 
+		while(true){
+			
+			try {
+
+				getNetController().connectSendAndReceiveMessage("/pls/scwp/!sc.academiclogin", get_byeMessage());
+				break;
+			}
+			catch (IOException e) { e.printStackTrace(); }
+		}
+		
+		//	shutdown the executor
 		get_executor().shutdownNow();
 	}
 
@@ -200,6 +220,14 @@ public class Controller {
 
 	public AddSemesterMessage get_addSemesterMessage() {
 		return _addSemesterMessage;
+	}
+
+	public void set_byeMessage(ByeMessage _byeMessage) {
+		this._byeMessage = _byeMessage;
+	}
+
+	public ByeMessage get_byeMessage() {
+		return _byeMessage;
 	}
 
 	public void set_executor(ExecutorService _executor) {
