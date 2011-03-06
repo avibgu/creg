@@ -144,7 +144,7 @@ public class Controller {
 			
 			try {
 
-				getNetController().connectSendAndReceiveMessage("/pls/scwp/!sc.academiclogin", get_byeMessage());
+				getNetController().connectSendAndReceiveMessage("/pls/scwp/!SC.BYEBYEHD", get_byeMessage());
 				break;
 			}
 			catch (IOException e) { e.printStackTrace(); }

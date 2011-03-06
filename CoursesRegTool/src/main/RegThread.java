@@ -3,11 +3,14 @@
  */
 package main;
 
+import java.io.IOException;
+
 import data.Counter;
 import data.NetController;
 import data.info.CourseInfo;
 import data.info.RegInfo;
 import data.info.UserInfo;
+import data.message.AddCourseMessage;
 
 /**
  * @author Avi Digmi
@@ -22,6 +25,8 @@ public class RegThread implements Runnable {
 	private RegInfo _regInfo;
 	
 	private Counter _counter;
+	
+	private AddCourseMessage _addCourseMessage;
 
 	public RegThread(CourseInfo cInfo, UserInfo uInfo, RegInfo regInfo, Counter counter) {
 
@@ -31,6 +36,12 @@ public class RegThread implements Runnable {
 		set_userInfo(uInfo);
 		set_regInfo(regInfo);
 		set_counter(counter);
+		
+		//	TODO:	what is course type??...
+		
+		set_addCourseMessage(new AddCourseMessage(get_regInfo().get_rn_year(), get_regInfo().get_rn_semester(),
+				get_courseInfo().get_department(), get_courseInfo().get_level(), get_courseInfo().get_course(),
+				get_userInfo().getRc_rowid(), "7", get_courseInfo().get_group()));
 	}
 
 	/* (non-Javadoc)
@@ -39,19 +50,18 @@ public class RegThread implements Runnable {
 	@Override
 	public void run() {
 
-		//	TODO:  get the missing fields - oc_course_consult_msg, _courseType
-		
 		//	register loop until the registration succeed
-		
 		while(true){
-			
-			//try {
-
-				//	TODO: addCourse packet.. (and maybe searchCourse before it..)
 				
+			//	TODO:	(maybe searchCourse here..)
+
+			try {
+				
+				//	addCourse packet..
+				getNetController().connectSendAndReceiveMessage("/pls/scwp/!sc.AddCourse", get_addCourseMessage());
 				break;
-			//}
-			//catch (IOException e) { e.printStackTrace(); }
+			}
+			catch (IOException e) {	e.printStackTrace(); }
 		}
 		
 		get_counter().decrease();
@@ -95,5 +105,13 @@ public class RegThread implements Runnable {
 
 	public Counter get_counter() {
 		return _counter;
+	}
+
+	public void set_addCourseMessage(AddCourseMessage _addCourseMessage) {
+		this._addCourseMessage = _addCourseMessage;
+	}
+
+	public AddCourseMessage get_addCourseMessage() {
+		return _addCourseMessage;
 	}
 }

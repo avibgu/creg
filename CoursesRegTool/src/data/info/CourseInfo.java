@@ -9,9 +9,9 @@ package data.info;
  */
 public class CourseInfo {
 	
-	private String _semester;
 	private String _department;
 	private String _level;
+	private String _course;
 	private String _group;
 
 	/**
@@ -20,35 +20,20 @@ public class CourseInfo {
 	public CourseInfo() {
 		super();
 	}
-	
+
 	/**
-	 * @param _semester
 	 * @param _department
 	 * @param _level
-	 * @param group 
+	 * @param _course
+	 * @param _group
 	 */
-	public CourseInfo(String semester, String department, String level, String group) {
+	public CourseInfo(String _department, String _level, String _course, String _group) {
+		
 		super();
-		set_semester(semester);
-		set_department(department);
-		set_level(level);
-		set_group(group);
-	}
-
-	public Object get_group() {
-		return _group;
-	}
-
-	public void set_group(String _group) {
+		this._department = _department;
+		this._level = _level;
+		this._course = _course;
 		this._group = _group;
-	}
-
-	public String get_semester() {
-		return _semester;
-	}
-
-	public void set_semester(String _semester) {
-		this._semester = _semester;
 	}
 
 	public String get_department() {
@@ -65,5 +50,21 @@ public class CourseInfo {
 
 	public void set_level(String _level) {
 		this._level = _level;
+	}
+	
+	public void set_course(String _course) {
+		this._course = _course;
+	}
+
+	public String get_course() {
+		return _course;
+	}
+
+	public String get_group() {
+		return _group;
+	}
+
+	public void set_group(String _group) {
+		this._group = _group;
 	}
 }
