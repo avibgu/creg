@@ -87,6 +87,9 @@ public class Controller {
 				
 				answer = getNetController().connectSendAndReceiveMessage("/pls/scwp/!fw.checkId", get_loginMsg());
 				
+				System.out.println("==============================");
+				System.out.println(answer);
+				
 				get_userInfo().setRc_rowid( StrManip.filterOutTheValueOf(answer, "rc_rowid") );
 				
 				set_academicLoginMessage(new AcademicLoginMessage(get_userInfo().getRc_rowid()));
@@ -95,6 +98,8 @@ public class Controller {
 				
 				System.out.println("==============================");
 				System.out.println(answer);
+				
+				//	TODO:	problem - i didn't get the reply message
 
 				splittedAnswer = StrManip.filterOutParamsForNextMessage(answer, "setFormActionAndSubmitAcLogInNew");
 
