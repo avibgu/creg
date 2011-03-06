@@ -93,6 +93,9 @@ public class Controller {
 				
 				answer = getNetController().connectSendAndReceiveMessage("/pls/scwp/!sc.academiclogin", get_academicLoginMessage());
 				
+				System.out.println("==============================");
+				System.out.println(answer);
+
 				splittedAnswer = StrManip.filterOutParamsForNextMessage(answer, "setFormActionAndSubmitAcLogInNew");
 
 				get_userInfo().setRc_rowid(splittedAnswer[1]);
@@ -110,6 +113,9 @@ public class Controller {
 						splittedAnswer[17]));
 				
 				answer = getNetController().connectSendAndReceiveMessage("/pls/scwp/!sc.AddSemester", get_addSemesterMessage());
+				
+				System.out.println("==============================");
+				System.out.println(answer);
 				
 				break;
 			}
@@ -144,8 +150,13 @@ public class Controller {
 			
 			try {
 
-				getNetController().connectSendAndReceiveMessage("/pls/scwp/!SC.BYEBYEHD", get_byeMessage());
+				answer = getNetController().connectSendAndReceiveMessage("/pls/scwp/!SC.BYEBYEHD", get_byeMessage());
+				
+				System.out.println("==============================");
+				System.out.println(answer);
+				
 				break;
+				
 			}
 			catch (IOException e) { e.printStackTrace(); }
 		}

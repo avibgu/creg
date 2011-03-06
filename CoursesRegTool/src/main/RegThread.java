@@ -58,7 +58,11 @@ public class RegThread implements Runnable {
 			try {
 				
 				//	addCourse packet..
-				getNetController().connectSendAndReceiveMessage("/pls/scwp/!sc.AddCourse", get_addCourseMessage());
+				String answer = getNetController().connectSendAndReceiveMessage("/pls/scwp/!sc.AddCourse", get_addCourseMessage());
+				
+				System.out.println("==============================");
+				System.out.println(answer);
+				
 				break;
 			}
 			catch (IOException e) {	e.printStackTrace(); }
