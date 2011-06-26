@@ -23,6 +23,8 @@ public class NetController {
 	private HttpURLConnection bguUrlConnection;
 	private OutputStream outputStream;
 	private BufferedReader inBuff;
+	private String cookieName = "";
+	private String cookieValue = "";
 
 	public NetController(){
 		
@@ -45,6 +47,9 @@ public class NetController {
 		setDoInput(true);
 		setDoOutput(true);
 
+		//	TODO: add cookies:
+		setCookieInRequest();
+		
 		connect();
 		
 		setOutputStream(getBguUrlConnection().getOutputStream());
@@ -54,12 +59,48 @@ public class NetController {
 		setInBuff(new BufferedReader( new InputStreamReader( getBguUrlConnection().getInputStream())));
 
 		String respone = receiveMessage();
-
+		
+		//	TODO: get cookies:
+		retrieveCookieFromResponse();
+		
 		disconnect();
-
+		
 		return respone;
 	}
 	
+	//	TODO:	{Cookies}	http://www.hccp.org/java-net-cookie-how-to.html
+	
+	private void retrieveCookieFromResponse(){
+
+		if (cookieName.equals("")){
+			
+			String headerName=null;
+			
+			for (int i=1; (headerName = getBguUrlConnection().getHeaderFieldKey(i))!=null; i++) {
+	
+				if (headerName.equals("Set-Cookie")) {                  
+				
+					String cookie = getBguUrlConnection().getHeaderField(i);
+					
+					if (cookie.indexOf(";") >= 0 )
+						cookie = cookie.substring(0, cookie.indexOf(";"));
+					
+					String[] splitted = cookie.split("=");
+					
+					cookieName = splitted[0];
+					cookieValue = splitted[1];
+				}
+			}
+		}
+	}
+	
+	private void setCookieInRequest(){
+		
+		if (!cookieName.equals(""))
+			getBguUrlConnection().setRequestProperty("Cookie",
+					cookieName + "=" + cookieValue);
+	}
+
 	private void setDoOutput(boolean b) {
 		getBguUrlConnection().setDoOutput(b);
 	}
