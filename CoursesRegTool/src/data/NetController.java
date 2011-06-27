@@ -38,6 +38,8 @@ public class NetController {
 		return connectSendAndReceiveMessage(subFolder,message.getMessage());
 	}
 
+	//	TODO:	{HTTP}	Persistent \ Non-Persistent ??..
+	
 	public String connectSendAndReceiveMessage(String subFolder, String message) throws IOException{
 		
 		setBguUrl(new URL("http","bgu4u.bgu.ac.il",subFolder));
