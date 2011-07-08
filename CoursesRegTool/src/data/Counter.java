@@ -3,6 +3,8 @@
  */
 package data;
 
+import java.util.logging.Logger;
+
 /**
  * @author Avi Digmi
  *
@@ -18,7 +20,7 @@ public class Counter {
 	
 	public synchronized void decrease() {
 
-		set_counter(get_counter()-1);
+		_counter--;
 		this.notifyAll();
 	}
 
@@ -28,5 +30,17 @@ public class Counter {
 
 	public synchronized int get_counter() {
 		return _counter;
+	}
+
+	public synchronized void waitForZero() {
+
+		try {
+		
+			while (_counter > 0)
+				wait();
+		}
+		catch (InterruptedException e){
+			Logger.getLogger("RegLogger").severe(e.getMessage());
+		}
 	}
 }

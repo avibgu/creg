@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.Vector;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.logging.Logger;
 
 import main.RegThread;
 import main.StrManip;
@@ -87,8 +88,7 @@ public class Controller {
 				
 				answer = getNetController().connectSendAndReceiveMessage("/pls/scwp/!fw.checkId", get_loginMsg());
 				
-				System.out.println("==============================");
-				System.out.println(answer);
+				Logger.getLogger("RegLogger").info(answer);
 				
 				get_userInfo().setRc_rowid( StrManip.filterOutTheValueOf(answer, "rc_rowid") );
 				
@@ -96,8 +96,7 @@ public class Controller {
 				
 				answer = getNetController().connectSendAndReceiveMessage("/pls/scwp/!sc.academiclogin", get_academicLoginMessage());
 				
-				System.out.println("==============================");
-				System.out.println(answer);
+				Logger.getLogger("RegLogger").info(answer);
 				
 				//	TODO:	problem - i didn't get the reply message
 
@@ -119,12 +118,13 @@ public class Controller {
 				
 				answer = getNetController().connectSendAndReceiveMessage("/pls/scwp/!sc.AddSemester", get_addSemesterMessage());
 				
-				System.out.println("==============================");
-				System.out.println(answer);
+				Logger.getLogger("RegLogger").info(answer);
 				
 				break;
 			}
-			catch (IOException e) { e.printStackTrace(); }
+			catch (IOException e) { 
+				Logger.getLogger("RegLogger").severe(e.getMessage());
+			}
 		}
 		
 		set_executor(Executors.newFixedThreadPool(get_coursesInfo().size()));
@@ -135,15 +135,8 @@ public class Controller {
 		for (CourseInfo cInfo: this._coursesInfo)
 			get_executor().execute(new RegThread(cInfo, get_userInfo(), get_regInfo(), get_counter()));
 		
-		//	wait to all threads
-		while(get_counter().get_counter() > 0){
-			
-			try {
-				
-				get_counter().wait();
-			}
-			catch (InterruptedException e) { e.printStackTrace(); }
-		}
+		//	wait for all threads
+		get_counter().waitForZero();
 		
 		//	generate leave packet
 		set_byeMessage(new ByeMessage(get_regInfo().get_rn_student_degree(), get_regInfo().get_rn_department(),
@@ -157,13 +150,14 @@ public class Controller {
 
 				answer = getNetController().connectSendAndReceiveMessage("/pls/scwp/!SC.BYEBYEHD", get_byeMessage());
 				
-				System.out.println("==============================");
-				System.out.println(answer);
+				Logger.getLogger("RegLogger").info(answer);
 				
 				break;
 				
 			}
-			catch (IOException e) { e.printStackTrace(); }
+			catch (IOException e) {
+				Logger.getLogger("RegLogger").severe(e.getMessage());
+			}
 		}
 		
 		//	shutdown the executor

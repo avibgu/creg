@@ -4,6 +4,7 @@
 package main;
 
 import java.io.IOException;
+import java.util.logging.Logger;
 
 import data.Counter;
 import data.NetController;
@@ -60,12 +61,13 @@ public class RegThread implements Runnable {
 				//	addCourse packet..
 				String answer = getNetController().connectSendAndReceiveMessage("/pls/scwp/!sc.AddCourse", get_addCourseMessage());
 				
-				System.out.println("==============================");
-				System.out.println(answer);
+				Logger.getLogger("RegLogger").info(answer);
 				
 				break;
 			}
-			catch (IOException e) {	e.printStackTrace(); }
+			catch (IOException e) {	
+				Logger.getLogger("RegLogger").severe(e.getMessage());
+			}
 		}
 		
 		get_counter().decrease();
