@@ -40,7 +40,8 @@ public class NetController {
 
 	//	TODO:	{HTTP}	Persistent \ Non-Persistent ??..
 	
-	public String connectSendAndReceiveMessage(String subFolder, String message) throws IOException{
+	public String connectSendAndReceiveMessage(String subFolder, String message)
+		throws IOException{
 		
 		setBguUrl(new URL("http","bgu4u.bgu.ac.il",subFolder));
 
@@ -78,7 +79,9 @@ public class NetController {
 			
 			String headerName=null;
 			
-			for (int i=1; (headerName = getBguUrlConnection().getHeaderFieldKey(i))!=null; i++) {
+			for (	int i=1;
+					(headerName = getBguUrlConnection().getHeaderFieldKey(i))!=null;
+					i++) {
 	
 				if (headerName.equals("Set-Cookie")) {                  
 				

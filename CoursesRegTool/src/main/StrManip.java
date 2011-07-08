@@ -10,7 +10,8 @@ package main;
 public class StrManip {
 
 	
-	public static String[] filterOutParamsForNextMessage(String textToFilter, String theFunctionOwnTheParams) {
+	public static String[] filterOutParamsForNextMessage(String textToFilter,
+			String theFunctionOwnTheParams) {
 
 		String[] splittedText = textToFilter.split(" ");
 		

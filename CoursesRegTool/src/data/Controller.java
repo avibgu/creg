@@ -76,49 +76,18 @@ public class Controller {
 	
 	public void startTheRegistration() {
 		
-		set_loginMsg(new LoginMessage(get_userInfo().getUsername(),
-				get_userInfo().getPassword(), get_userInfo().getId()));
-		
-		String answer;
-		String[] splittedAnswer;
-		
 		while(true){
 			
 			try {
 				
-				answer = getNetController().connectSendAndReceiveMessage("/pls/scwp/!fw.checkId", get_loginMsg());
+				// send login messages and receive an answer
+				sendLoginMsg();
 				
-				Logger.getLogger("RegLogger").info(answer);
-				
-				get_userInfo().setRc_rowid( StrManip.filterOutTheValueOf(answer, "rc_rowid") );
-				
-				set_academicLoginMessage(new AcademicLoginMessage(get_userInfo().getRc_rowid()));
-				
-				answer = getNetController().connectSendAndReceiveMessage("/pls/scwp/!sc.academiclogin", get_academicLoginMessage());
-				
-				Logger.getLogger("RegLogger").info(answer);
-				
-				//	TODO:	problem - i didn't get the reply message
+				// send academic login messages and receive an answer
+				sendAcademicLoginMsg();
 
-				splittedAnswer = StrManip.filterOutParamsForNextMessage(answer, "setFormActionAndSubmitAcLogInNew");
-
-				get_userInfo().setRc_rowid(splittedAnswer[1]);
-				get_regInfo().set_rn_student_degree(splittedAnswer[3]);
-				get_regInfo().set_rn_department(splittedAnswer[5]);
-				get_regInfo().set_rn_degree_level(splittedAnswer[7]);
-				get_regInfo().set_rn_student_path(splittedAnswer[9]);
-				get_regInfo().set_rn_year(splittedAnswer[11]);
-				get_regInfo().set_rn_semester(splittedAnswer[13]);
-				get_regInfo().set_rn_consult_term(splittedAnswer[15]);
-				get_regInfo().set_rn_consult_status(splittedAnswer[17]);
-
-				set_addSemesterMessage(new AddSemesterMessage(splittedAnswer[1], splittedAnswer[3], splittedAnswer[5],
-						splittedAnswer[7], splittedAnswer[9], splittedAnswer[11], splittedAnswer[13], splittedAnswer[15],
-						splittedAnswer[17]));
-				
-				answer = getNetController().connectSendAndReceiveMessage("/pls/scwp/!sc.AddSemester", get_addSemesterMessage());
-				
-				Logger.getLogger("RegLogger").info(answer);
+				// send add semester messages and receive an answer
+				sendAddSemesterMsg();
 				
 				break;
 			}
@@ -126,6 +95,82 @@ public class Controller {
 				Logger.getLogger("RegLogger").severe(e.getMessage());
 			}
 		}
+		
+		//	register to courses using thread for each course
+		registerToCourses();
+		
+		//	generate leave packet
+		sendGoodByeMsg();
+	}
+
+	/**
+	 * 
+	 * @throws IOException
+	 */
+	private void sendLoginMsg() throws IOException {
+		
+		String answer;
+		
+		set_loginMsg(new LoginMessage(get_userInfo().getUsername(),
+				get_userInfo().getPassword(), get_userInfo().getId()));
+		
+		answer = getNetController().connectSendAndReceiveMessage("/pls/scwp/!fw.checkId", get_loginMsg());
+		
+		Logger.getLogger("RegLogger").info(answer);
+		
+		get_userInfo().setRc_rowid( StrManip.filterOutTheValueOf(answer, "rc_rowid") );
+	}
+	
+	/**
+	 * 
+	 * @throws IOException
+	 */
+	private void sendAcademicLoginMsg() throws IOException {
+
+		set_academicLoginMessage(new AcademicLoginMessage(get_userInfo().getRc_rowid()));
+		
+		String answer = getNetController().connectSendAndReceiveMessage("/pls/scwp/!sc.academiclogin",
+				get_academicLoginMessage());
+		
+		Logger.getLogger("RegLogger").info(answer);
+		
+		//	TODO:	problem - i didn't get the reply message
+
+		String[] splittedAnswer = StrManip.filterOutParamsForNextMessage(answer, "setFormActionAndSubmitAcLogInNew");
+
+		get_userInfo().setRc_rowid(splittedAnswer[1]);
+		get_regInfo().set_rn_student_degree(splittedAnswer[3]);
+		get_regInfo().set_rn_department(splittedAnswer[5]);
+		get_regInfo().set_rn_degree_level(splittedAnswer[7]);
+		get_regInfo().set_rn_student_path(splittedAnswer[9]);
+		get_regInfo().set_rn_year(splittedAnswer[11]);
+		get_regInfo().set_rn_semester(splittedAnswer[13]);
+		get_regInfo().set_rn_consult_term(splittedAnswer[15]);
+		get_regInfo().set_rn_consult_status(splittedAnswer[17]);		
+	}
+	
+	/**
+	 * 
+	 * @throws IOException
+	 */
+	private void sendAddSemesterMsg() throws IOException {
+		
+		set_addSemesterMessage(new AddSemesterMessage(get_userInfo().getRc_rowid(),
+				get_regInfo().get_rn_student_degree(), get_regInfo().get_rn_department(),
+				get_regInfo().get_rn_degree_level(), get_regInfo().get_rn_student_path(),
+				get_regInfo().get_rn_year(), get_regInfo().get_rn_semester(),
+				get_regInfo().get_rn_consult_term(), get_regInfo().get_rn_consult_status()));
+		
+		String answer = getNetController().connectSendAndReceiveMessage("/pls/scwp/!sc.AddSemester",
+				get_addSemesterMessage());
+		
+		Logger.getLogger("RegLogger").info(answer);
+	}
+	
+	/**
+	 * 
+	 */
+	private void registerToCourses() {
 		
 		set_executor(Executors.newFixedThreadPool(get_coursesInfo().size()));
 		
@@ -138,7 +183,15 @@ public class Controller {
 		//	wait for all threads
 		get_counter().waitForZero();
 		
-		//	generate leave packet
+		//	shutdown the executor
+		get_executor().shutdownNow();
+	}
+	
+	/**
+	 * 
+	 */
+	private void sendGoodByeMsg() {
+		
 		set_byeMessage(new ByeMessage(get_regInfo().get_rn_student_degree(), get_regInfo().get_rn_department(),
 				get_regInfo().get_rn_degree_level(), get_regInfo().get_rn_student_path(), get_regInfo().get_rn_year(),
 				get_regInfo().get_rn_semester(), get_regInfo().get_rn_consult_term(), get_userInfo().getRc_rowid(),
@@ -148,7 +201,7 @@ public class Controller {
 			
 			try {
 
-				answer = getNetController().connectSendAndReceiveMessage("/pls/scwp/!SC.BYEBYEHD", get_byeMessage());
+				String answer = getNetController().connectSendAndReceiveMessage("/pls/scwp/!SC.BYEBYEHD", get_byeMessage());
 				
 				Logger.getLogger("RegLogger").info(answer);
 				
@@ -159,9 +212,6 @@ public class Controller {
 				Logger.getLogger("RegLogger").severe(e.getMessage());
 			}
 		}
-		
-		//	shutdown the executor
-		get_executor().shutdownNow();
 	}
 
 	public UserInfo get_userInfo() {
