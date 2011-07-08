@@ -39,6 +39,7 @@ public class NetController {
 	}
 
 	//	TODO:	{HTTP}	Persistent \ Non-Persistent ??..
+	//	TODO:	{HTTP}	Does the message should include more/different headers ??..
 	
 	public String connectSendAndReceiveMessage(String subFolder, String message)
 		throws IOException{
