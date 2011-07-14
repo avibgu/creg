@@ -51,8 +51,10 @@ public class NetController {
 		setDoInput(true);
 		setDoOutput(true);
 
-		//	TODO: add cookies:
 		setCookieInRequest();
+		
+		// TODO: User Agent
+		getBguUrlConnection().addRequestProperty("User-Agent", "Mozilla/5.0");
 		
 		connect();
 		
@@ -63,8 +65,7 @@ public class NetController {
 		setInBuff(new BufferedReader( new InputStreamReader( getBguUrlConnection().getInputStream())));
 
 		String respone = receiveMessage();
-		
-		//	TODO: get cookies:
+
 		retrieveCookieFromResponse();
 		
 		disconnect();

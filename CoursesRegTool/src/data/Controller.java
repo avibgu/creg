@@ -91,8 +91,14 @@ public class Controller {
 				
 				break;
 			}
-			catch (IOException e) { 
+			catch (Exception e) {
+				
 				Logger.getLogger("RegLogger").severe(e.getMessage());
+
+				//	generate leave packet
+				sendGoodByeMsg();
+				
+				return;
 			}
 		}
 		
@@ -101,6 +107,40 @@ public class Controller {
 		
 		//	generate leave packet
 		sendGoodByeMsg();
+	}
+	
+	/**
+	 * Alternative.. without threads..
+	 */
+	public void startTheRegistration2() {
+		
+		
+		for (CourseInfo cInfo: this._coursesInfo){
+
+			try {
+				
+				// send login messages and receive an answer
+				sendLoginMsg();
+				
+				// send academic login messages and receive an answer
+				sendAcademicLoginMsg();
+	
+				// send add semester messages and receive an answer
+				sendAddSemesterMsg();
+				
+				//	register to a course
+				new RegThread(cInfo, get_userInfo(), get_regInfo(), get_counter()).run();
+			}
+			catch (Exception e) {
+				
+				Logger.getLogger("RegLogger").severe(e.getMessage());
+			}
+			finally{
+
+				//	generate leave packet
+				sendGoodByeMsg();
+			}
+		}
 	}
 
 	/**
@@ -133,8 +173,6 @@ public class Controller {
 				get_academicLoginMessage());
 		
 		Logger.getLogger("RegLogger").info(answer);
-		
-		//	TODO:	problem - i didn't get the reply message
 
 		String[] splittedAnswer = StrManip.filterOutParamsForNextMessage(answer, "setFormActionAndSubmitAcLogInNew");
 

@@ -70,7 +70,7 @@ public class RegThread implements Runnable {
 			}
 		}
 		
-		get_counter().decrease();
+		//TODO:	get_counter().decrease();
 	}
 
 	public void setNetController(NetController netController) {

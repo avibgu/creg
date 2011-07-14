@@ -58,7 +58,8 @@ public class Cli {
 		get_br().readLine();
 		
 		//	tell the controller to start
-		get_controller().startTheRegistration();
+		//	TODO: get_controller().startTheRegistration();
+		get_controller().startTheRegistration2();
 	}
 	
 	public Controller get_controller() {
