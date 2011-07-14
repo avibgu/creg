@@ -17,11 +17,11 @@ public class StrManip {
 		
 		String relevantString = "";
 		
-		for(int i=0; i < splittedText.length; i++){
+		for (String text: splittedText){
 
-			if( 0 == splittedText[i].compareTo(theFunctionOwnTheParams) ){
+			if( text.contains(theFunctionOwnTheParams) ){
 
-				relevantString = splittedText[i];
+				relevantString = text;
 				break;
 			}
 		}
@@ -33,7 +33,7 @@ public class StrManip {
 		
 		splittedText = relevantString.split("\'");
 		
-		return null;
+		return splittedText;
 	}
 
 	public static String filterOutTheValueOf(String textToFilter, String whatToFind) {
