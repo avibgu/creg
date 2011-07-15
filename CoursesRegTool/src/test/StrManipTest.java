@@ -34,4 +34,15 @@ public class StrManipTest {
 			assertNotNull(tmp);
 		}
 	}
+	
+	@Test
+	public void testFilterOutTheValueOf() {
+
+		String text = FileManip.getContents(new File("text2.txt"));
+		
+		String rc_rowid = StrManip.filterOutTheValueOf(text, "rc_rowid");
+		
+		assertEquals("AAAlEuAAhAAA7M+AAI", rc_rowid);
+	}
+	
 }

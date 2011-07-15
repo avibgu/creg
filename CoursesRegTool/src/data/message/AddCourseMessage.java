@@ -17,34 +17,49 @@ public class AddCourseMessage implements Message {
 	private String _rowID;
 	private String _courseType;
 	private String _groupNumber;
+	private String _tirgulGroupNumber;
 
 	/**
-	 * @param _year
-	 * @param _semester
-	 * @param _department
-	 * @param _level
-	 * @param _course
-	 * @param _rowID
-	 * @param _course_consult_msg
-	 * @param _courseType
-	 * @param _groupNumber
+	 * @param year
+	 * @param semester
+	 * @param department
+	 * @param level
+	 * @param course
+	 * @param rowID
+	 * @param course_consult_msg
+	 * @param courseType
+	 * @param groupNumber
+	 * @param tirgulGroupNumber
 	 */
-	public AddCourseMessage(String _year, String _semester, String _department,
-			String _level, String _course, String _rowID, String _courseType, String _groupNumber) {
+	public AddCourseMessage(String year, String semester, String department,
+			String level, String course, String rowID, String courseType,
+			String groupNumber, String tirgulGroupNumber) {
 
 		super();
-		set_year(_year);
-		set_semester(_semester);
-		set_department(_department);
-		set_level(_level);
-		set_course(_course);
-		set_rowID(_rowID);
-		set_courseType(_courseType);
-		set_groupNumber(_groupNumber);
+		set_year(year);
+		set_semester(semester);
+		set_department(department);
+		set_level(level);
+		set_course(course);
+		set_rowID(rowID);
+		set_courseType(courseType);
+		set_groupNumber(groupNumber);
+		set_tirgulGroupNumber(tirgulGroupNumber);
 	}
 
 	@Override
 	public String getMessage() {
+		
+		String tirgul1 = "";
+		String tirgul2 = "";
+		
+		if (!get_tirgulGroupNumber().isEmpty()){
+		
+			tirgul1 = "on_group_number_2=" + get_tirgulGroupNumber() + "&";
+			tirgul2 = "&" + "Set1_2=" + get_tirgulGroupNumber();
+		}
+		
+		//	TODO: make 'rn_department=373' as variable
 		
 		String msg =	"rc_rowid=" + get_rowID() + "&" +
 						"rn_student_degree=1&" +
@@ -71,7 +86,7 @@ public class AddCourseMessage implements Message {
 						"rn_StudentAuthorization_semester=" + get_semester() + "&" +
 						"rn_CoursesPrintout_semester=" + get_semester() + "&" +
 						"on_group_number_1=" + get_groupNumber() + "&" +
-						"mainSet=7" + get_groupNumber();
+						tirgul1 + "mainSet=" + get_groupNumber() + tirgul2;
 		
 		return msg;
 	}
@@ -80,63 +95,71 @@ public class AddCourseMessage implements Message {
 		return _year;
 	}
 
-	public void set_year(String _year) {
-		this._year = _year;
+	public void set_year(String year) {
+		this._year = year;
 	}
 
 	public String get_semester() {
 		return _semester;
 	}
 
-	public void set_semester(String _semester) {
-		this._semester = _semester;
+	public void set_semester(String semester) {
+		this._semester = semester;
 	}
 
 	public String get_department() {
 		return _department;
 	}
 
-	public void set_department(String _department) {
-		this._department = _department;
+	public void set_department(String department) {
+		this._department = department;
 	}
 
 	public String get_level() {
 		return _level;
 	}
 
-	public void set_level(String _level) {
-		this._level = _level;
+	public void set_level(String level) {
+		this._level = level;
 	}
 
 	public String get_course() {
 		return _course;
 	}
 
-	public void set_course(String _course) {
-		this._course = _course;
+	public void set_course(String course) {
+		this._course = course;
 	}
 
 	public String get_rowID() {
 		return _rowID;
 	}
 
-	public void set_rowID(String _rowID) {
-		this._rowID = _rowID;
+	public void set_rowID(String rowID) {
+		this._rowID = rowID;
 	}
 
 	public String get_courseType() {
 		return _courseType;
 	}
 
-	public void set_courseType(String _courseType) {
-		this._courseType = _courseType;
+	public void set_courseType(String courseType) {
+		this._courseType = courseType;
 	}
 
 	public String get_groupNumber() {
 		return _groupNumber;
 	}
 
-	public void set_groupNumber(String _groupNumber) {
-		this._groupNumber = _groupNumber;
+	public void set_groupNumber(String groupNumber) {
+		this._groupNumber = groupNumber;
+	}
+
+	public void set_tirgulGroupNumber(String tirgulGroupNumber) {
+		this._tirgulGroupNumber = tirgulGroupNumber;
+	}
+
+	public String get_tirgulGroupNumber() {
+		return _tirgulGroupNumber;
 	}
 }

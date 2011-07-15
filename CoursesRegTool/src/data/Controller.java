@@ -276,8 +276,9 @@ public class Controller {
 		set_userInfo( new UserInfo(username, password, id) );
 	}
 
-	public void addCourse(String department, String level, String course, String group) {
-		addCourse(new CourseInfo(department, level, course, group));
+	public void addCourse(String department, String level,
+			String course, String group, String tirgul) {
+		addCourse(new CourseInfo(department, level, course, group, tirgul));
 	}
 
 	public void set_regInfo(RegInfo _regInfo) {

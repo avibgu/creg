@@ -40,8 +40,12 @@ public class Cli {
 			String course = get_br().readLine();
 			System.out.print("Enter Group number: ");
 			String group = get_br().readLine();
+			System.out.print("Enter Tirgul group number: ");
+			String tirgul = get_br().readLine();
 
-			get_controller().addCourse(department, level, course, group);
+			System.out.println(tirgul.isEmpty());
+			
+			get_controller().addCourse(department, level, course, group, tirgul);
 
 			//	another course?
 			System.out.print("Press y to enter another course: ");

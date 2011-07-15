@@ -42,7 +42,7 @@ public class RegThread implements Runnable {
 		
 		set_addCourseMessage(new AddCourseMessage(get_regInfo().get_rn_year(), get_regInfo().get_rn_semester(),
 				get_courseInfo().get_department(), get_courseInfo().get_level(), get_courseInfo().get_course(),
-				get_userInfo().getRc_rowid(), "7", get_courseInfo().get_group()));
+				get_userInfo().getRc_rowid(), "7", get_courseInfo().get_group(), get_courseInfo().get_tirgul()));
 	}
 
 	/* (non-Javadoc)
@@ -85,36 +85,36 @@ public class RegThread implements Runnable {
 		return _courseInfo;
 	}
 
-	public void set_courseInfo(CourseInfo _courseInfo) {
-		this._courseInfo = _courseInfo;
+	public void set_courseInfo(CourseInfo courseInfo) {
+		this._courseInfo = courseInfo;
 	}
 
 	public UserInfo get_userInfo() {
 		return _userInfo;
 	}
 
-	public void set_userInfo(UserInfo _userInfo) {
-		this._userInfo = _userInfo;
+	public void set_userInfo(UserInfo userInfo) {
+		this._userInfo = userInfo;
 	}
 
-	public void set_regInfo(RegInfo _regInfo) {
-		this._regInfo = _regInfo;
+	public void set_regInfo(RegInfo regInfo) {
+		this._regInfo = regInfo;
 	}
 
 	public RegInfo get_regInfo() {
 		return _regInfo;
 	}
 
-	public void set_counter(Counter _counter) {
-		this._counter = _counter;
+	public void set_counter(Counter counter) {
+		this._counter = counter;
 	}
 
 	public Counter get_counter() {
 		return _counter;
 	}
 
-	public void set_addCourseMessage(AddCourseMessage _addCourseMessage) {
-		this._addCourseMessage = _addCourseMessage;
+	public void set_addCourseMessage(AddCourseMessage addCourseMessage) {
+		this._addCourseMessage = addCourseMessage;
 	}
 
 	public AddCourseMessage get_addCourseMessage() {
