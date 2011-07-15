@@ -165,6 +165,8 @@ public class Controller {
 		Logger.getLogger("RegLogger").info(answer);
 		
 		get_userInfo().setRc_rowid( StrManip.filterOutTheValueOf(answer, "rc_rowid") );
+		
+		//	TODO: what to do when the rowid is illegal??.. ("AAAlEuAAhAAA7M+AAI")
 	}
 	
 	/**
