@@ -43,6 +43,10 @@ public class Controller {
 	public Controller() {
 		
 		super();
+		init();
+	}
+
+	private void init() {
 		
 		setNetController(new NetController());
 		
@@ -140,6 +144,8 @@ public class Controller {
 				//	generate leave packet
 				sendGoodByeMsg();
 			}
+			
+			setNetController(new NetController());
 		}
 	}
 
