@@ -23,8 +23,7 @@ public class Cli {
 		//	get information about the user
 		System.out.print("Enter username: ");
 		String username = get_br().readLine();
-		System.out.print("Enter password: ");
-		String password = get_br().readLine();
+		String password = retrievePassword();
 		System.out.print("Enter id: ");
 		String id = get_br().readLine();
 
@@ -64,6 +63,12 @@ public class Cli {
 		//	tell the controller to start
 		//	TODO: get_controller().startTheRegistration();
 		get_controller().startTheRegistration2();
+	}
+
+	protected String retrievePassword() throws IOException {
+		System.out.print("Enter password: ");
+		String password = get_br().readLine();
+		return password;
 	}
 	
 	public Controller get_controller() {
