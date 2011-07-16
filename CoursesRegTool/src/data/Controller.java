@@ -40,6 +40,16 @@ public class Controller {
 	private ExecutorService _executor;
 	private Counter _counter;
 
+	private boolean _keepOn;
+
+	public boolean is_keepOn() {
+		return _keepOn;
+	}
+
+	public void set_keepOn(boolean _keepOn) {
+		this._keepOn = _keepOn;
+	}
+
 	public Controller() {
 		
 		super();
@@ -76,9 +86,12 @@ public class Controller {
 		
 		//	sets the counter to null
 		set_counter(null);
+		
+		//	sets keep on to true
+		set_keepOn(true);
 	}
 	
-	public void startTheRegistration() {
+	public void startTheRegistrationUsingThreads() {
 		
 		while(true){
 			
@@ -116,7 +129,7 @@ public class Controller {
 	/**
 	 * Alternative.. without threads..
 	 */
-	public void startTheRegistration2() {
+	public void startTheRegistration() {
 		
 		
 		for (CourseInfo cInfo: this._coursesInfo){
@@ -147,6 +160,25 @@ public class Controller {
 			
 			setNetController(new NetController());
 		}
+	}
+	
+	public void registerForever() {
+
+		Runtime.getRuntime().addShutdownHook(new Thread(){
+			
+			public void run() {
+				
+				Logger.getLogger("RegLogger").severe("Control-C caught. Shutting down...");
+				_keepOn = false;
+	            try { Thread.sleep(2000); } catch (Exception e) {}
+			}
+		});
+        
+		while(_keepOn) {
+			
+			startTheRegistration();
+			try { Thread.sleep(2000); } catch (Exception e) {}
+        }
 	}
 
 	/**
