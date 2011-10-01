@@ -91,6 +91,7 @@ public class Controller {
 		set_keepOn(true);
 	}
 	
+	@Deprecated
 	public void startTheRegistrationUsingThreads() {
 		
 		while(true){
@@ -120,7 +121,7 @@ public class Controller {
 		}
 		
 		//	register to courses using thread for each course
-		registerToCourses();
+		registerToCoursesUsingThreads();
 		
 		//	generate leave packet
 		sendGoodByeMsg();
@@ -248,7 +249,7 @@ public class Controller {
 	/**
 	 * 
 	 */
-	private void registerToCourses() {
+	private void registerToCoursesUsingThreads() {
 		
 		set_executor(Executors.newFixedThreadPool(get_coursesInfo().size()));
 		
