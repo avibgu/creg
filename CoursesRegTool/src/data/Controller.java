@@ -26,6 +26,9 @@ import data.message.LoginMessage;
  */
 public class Controller {
 	
+	private static final int WAITING_IN_SECONDS = 4;
+	private static final int WAITING_IN_MILISECONDS = WAITING_IN_SECONDS * 1000;
+
 	private NetController netController;
 
 	private UserInfo _userInfo;
@@ -177,7 +180,7 @@ public class Controller {
 		while(_keepOn) {
 			
 			startTheRegistration();
-			try { Thread.sleep(4000); } catch (Exception e) {}
+			try { Thread.sleep(WAITING_IN_MILISECONDS * 1000); } catch (Exception e) {}
         }
 	}
 
