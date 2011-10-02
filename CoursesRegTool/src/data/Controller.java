@@ -131,8 +131,7 @@ public class Controller {
 	 * Alternative.. without threads..
 	 */
 	public void startTheRegistration() {
-		
-		
+
 		for (CourseInfo cInfo: this._coursesInfo){
 
 			try {
@@ -178,7 +177,7 @@ public class Controller {
 		while(_keepOn) {
 			
 			startTheRegistration();
-			try { Thread.sleep(2000); } catch (Exception e) {}
+			try { Thread.sleep(4000); } catch (Exception e) {}
         }
 	}
 
@@ -186,7 +185,7 @@ public class Controller {
 	 * 
 	 * @throws IOException
 	 */
-	private void sendLoginMsg() throws IOException {
+	private void sendLoginMsg() throws Exception {
 		
 		String answer;
 		
@@ -206,7 +205,7 @@ public class Controller {
 	 * 
 	 * @throws IOException
 	 */
-	private void sendAcademicLoginMsg() throws IOException {
+	private void sendAcademicLoginMsg() throws Exception {
 
 		set_academicLoginMessage(new AcademicLoginMessage(get_userInfo().getRc_rowid()));
 		
@@ -232,7 +231,7 @@ public class Controller {
 	 * 
 	 * @throws IOException
 	 */
-	private void sendAddSemesterMsg() throws IOException {
+	private void sendAddSemesterMsg() throws Exception {
 		
 		set_addSemesterMessage(new AddSemesterMessage(get_userInfo().getRc_rowid(),
 				get_regInfo().get_rn_student_degree(), get_regInfo().get_rn_department(),
@@ -287,7 +286,7 @@ public class Controller {
 				break;
 				
 			}
-			catch (IOException e) {
+			catch (Exception e) {
 				Logger.getLogger("RegLogger").severe(e.getMessage());
 			}
 		}
