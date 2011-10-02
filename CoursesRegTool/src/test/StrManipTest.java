@@ -22,7 +22,7 @@ public class StrManipTest {
 	}
 
 	@Test
-	public void testFilterOutParamsForNextMessage() {
+	public void testFilterOutParamsForNextMessage() throws Exception {
 
 		String text = FileManip.getContents(new File("text.txt"));
 		
@@ -36,7 +36,7 @@ public class StrManipTest {
 	}
 	
 	@Test
-	public void testFilterOutTheValueOf() {
+	public void testFilterOutTheValueOf() throws Exception {
 
 		String text = FileManip.getContents(new File("text2.txt"));
 		

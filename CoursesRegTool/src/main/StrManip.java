@@ -11,7 +11,7 @@ public class StrManip {
 
 	
 	public static String[] filterOutParamsForNextMessage(String textToFilter,
-			String theFunctionOwnTheParams) {
+			String theFunctionOwnTheParams) throws Exception{
 
 		String[] splittedText = textToFilter.split(" ");
 		
@@ -36,7 +36,8 @@ public class StrManip {
 		return splittedText;
 	}
 
-	public static String filterOutTheValueOf(String textToFilter, String whatToFind) {
+	public static String filterOutTheValueOf(String textToFilter,
+			String whatToFind) throws Exception {
 
 		String value = "";
 

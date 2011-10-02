@@ -62,8 +62,8 @@ public class Cli {
 		
 		//	tell the controller to start
 		//	TODO: get_controller().startTheRegistrationUsingThreads();
-		get_controller().startTheRegistration();
-		//	TODO:	get_controller().registerForever();
+		//	TODO: get_controller().startTheRegistration();
+		get_controller().registerForever();
 	}
 
 	protected String retrievePassword() throws IOException {
