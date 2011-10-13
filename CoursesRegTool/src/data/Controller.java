@@ -180,7 +180,7 @@ public class Controller {
 		while(_keepOn) {
 			
 			startTheRegistration();
-			try { Thread.sleep(WAITING_IN_MILISECONDS * 1000); } catch (Exception e) {}
+			try { Thread.sleep(WAITING_IN_MILISECONDS); } catch (Exception e) {}
         }
 	}
 
@@ -199,9 +199,19 @@ public class Controller {
 		
 		Logger.getLogger("RegLogger").info(answer);
 		
-		get_userInfo().setRc_rowid( StrManip.filterOutTheValueOf(answer, "rc_rowid") );
+		String rowid = StrManip.filterOutTheValueOf(answer, "rc_rowid");
+
+		get_userInfo().setRc_rowid(rowid);
 		
-		//	TODO: what to do when the rowid is illegal??.. ("AAAlEuAAhAAA7M+AAI")
+		//	TODO: find something else to do when the rowid is illegal.. ("AAAlEuAAhAAA7M+AAI")
+		if (rowid.contains("+")){
+			
+			get_userInfo().setRc_rowid(rowid.replace("+", "\\+"));
+			
+			Logger.getLogger("RegLogger").warning("Invalid RowID");
+			sendGoodByeMsg();
+			sendLoginMsg();
+		}
 	}
 	
 	/**
@@ -287,7 +297,6 @@ public class Controller {
 				Logger.getLogger("RegLogger").info(answer);
 				
 				break;
-				
 			}
 			catch (Exception e) {
 				Logger.getLogger("RegLogger").severe(e.getMessage());

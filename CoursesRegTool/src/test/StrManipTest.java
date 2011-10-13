@@ -30,7 +30,7 @@ public class StrManipTest {
 		
 		for (String tmp: splittedAnswer){
 			
-			System.out.println(tmp);
+			//	System.out.println(tmp);
 			assertNotNull(tmp);
 		}
 	}
@@ -45,4 +45,13 @@ public class StrManipTest {
 		assertEquals("AAAlEuAAhAAA7M+AAI", rc_rowid);
 	}
 	
+	@Test
+	public void testFilterOutTheValueOfSpecialRowid() throws Exception {
+		
+		String text = FileManip.getContents(new File("special_rowid.txt"));
+		
+		String rc_rowid = StrManip.filterOutTheValueOf(text, "rc_rowid");
+		
+		assertEquals("AAAlEuAAeAAA7YLAA+", rc_rowid);
+	}
 }
