@@ -165,6 +165,41 @@ public class Controller {
 		}
 	}
 	
+	/**
+	 * Experimental.. without threads.. to solve the bad id issue..
+	 */
+	public void startTheRegistrationExperimental() {
+
+		try {
+			
+			// send login messages and receive an answer
+			sendLoginMsg();
+			
+			// send academic login messages and receive an answer
+			sendAcademicLoginMsg();
+
+			// send add semester messages and receive an answer
+			sendAddSemesterMsg();
+			
+			for (CourseInfo cInfo: this._coursesInfo){
+
+				//	register to a course
+				new RegThread(cInfo, get_userInfo(), get_regInfo(), get_counter()).run();
+			}
+		}
+		catch (Exception e) {
+			
+			Logger.getLogger("RegLogger").severe(e.getMessage());
+		}
+		finally{
+
+			//	generate leave packet
+			sendGoodByeMsg();
+		}
+		
+		setNetController(new NetController());
+	}
+	
 	public void registerForever() {
 
 		Runtime.getRuntime().addShutdownHook(new Thread(){
@@ -180,6 +215,8 @@ public class Controller {
 		while(_keepOn) {
 			
 			startTheRegistration();
+			// TODO:	startTheRegistrationExperimental();
+			
 			try { Thread.sleep(WAITING_IN_MILISECONDS); } catch (Exception e) {}
         }
 	}
@@ -206,7 +243,7 @@ public class Controller {
 		//	TODO: find something else to do when the rowid is illegal.. ("AAAlEuAAhAAA7M+AAI")
 		if (rowid.contains("+")){
 			
-			get_userInfo().setRc_rowid(rowid.replace("+", "\\+"));
+			//	get_userInfo().setRc_rowid(rowid.replace("+", "\\+"));
 			
 			Logger.getLogger("RegLogger").warning("Invalid RowID");
 			sendGoodByeMsg();
