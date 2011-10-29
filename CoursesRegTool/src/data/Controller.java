@@ -243,11 +243,11 @@ public class Controller {
 		//	TODO: find something else to do when the rowid is illegal.. ("AAAlEuAAhAAA7M+AAI")
 		if (rowid.contains("+")){
 			
-			//	get_userInfo().setRc_rowid(rowid.replace("+", "\\+"));
+//			get_userInfo().setRc_rowid(rowid.replace("+", "\\+"));
 			
 			Logger.getLogger("RegLogger").warning("Invalid RowID");
-			sendGoodByeMsg();
-			sendLoginMsg();
+//			sendGoodByeMsg();
+//			sendLoginMsg();
 		}
 	}
 	
