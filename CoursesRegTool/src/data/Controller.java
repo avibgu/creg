@@ -34,7 +34,7 @@ public class Controller {
 	private static final long WAITING_IN_SECONDS_WHEN_FAILED = WAITING_IN_MINUTES_WHEN_FAILED * 60;
 	private static final long WAITING_IN_MILISECONDS_WHEN_FAILED = WAITING_IN_SECONDS_WHEN_FAILED * 1000;
 
-	private static final long ROUND_TIME_IN_MINUTES = 7;
+	private static final long ROUND_TIME_IN_MINUTES = 5;
 	private static final long ROUND_TIME_IN_SECONDS = ROUND_TIME_IN_MINUTES * 60;
 	private static final long ROUND_TIME_IN_MILISECONDS = ROUND_TIME_IN_SECONDS * 1000;
 
@@ -293,6 +293,11 @@ public class Controller {
 				// generate leave packet
 				sendGoodByeMsg();
 
+				try {
+					Thread.sleep(WAITING_IN_MILISECONDS);
+				} catch (Exception e) {
+				}
+
 				if (!loginSucceded) {
 					try {
 						Thread.sleep(WAITING_IN_MILISECONDS_WHEN_FAILED);
@@ -300,9 +305,9 @@ public class Controller {
 					}
 				}
 			}
-		}
 
-		setNetController(new NetController());
+			setNetController(new NetController());
+		}
 	}
 
 	/**
@@ -325,16 +330,16 @@ public class Controller {
 
 		get_userInfo().setRc_rowid(rowid);
 
-		// TODO: find something else to do when the rowid is illegal..
-		// ("AAAlEuAAhAAA7M+AAI")
-		if (rowid.contains("+")) {
-
-			// get_userInfo().setRc_rowid(rowid.replace("+", "\\+"));
-
-			Logger.getLogger("RegLogger").warning("Invalid RowID");
-			// sendGoodByeMsg();
-			// sendLoginMsg();
-		}
+		// // TODO: find something else to do when the rowid is illegal..
+		// // ("AAAlEuAAhAAA7M+AAI")
+		// if (rowid.contains("+")) {
+		//
+		// // get_userInfo().setRc_rowid(rowid.replace("+", "\\+"));
+		//
+		// Logger.getLogger("RegLogger").warning("Invalid RowID");
+		// // sendGoodByeMsg();
+		// // sendLoginMsg();
+		// }
 	}
 
 	/**
@@ -346,13 +351,33 @@ public class Controller {
 		set_academicLoginMessage(new AcademicLoginMessage(get_userInfo()
 				.getRc_rowid()));
 
-		String answer = getNetController().connectSendAndReceiveMessage(
-				"/pls/scwp/!sc.academiclogin", get_academicLoginMessage());
+		String[] splittedAnswer = null;
+		int num_of_tries = 10;
 
-		Logger.getLogger("RegLogger").info(answer);
+		while (num_of_tries > 0) {
 
-		String[] splittedAnswer = StrManip.filterOutParamsForNextMessage(
-				answer, "setFormActionAndSubmitAcLogInNew");
+			try {
+				String answer = getNetController()
+						.connectSendAndReceiveMessage(
+								"/pls/scwp/!sc.academiclogin",
+								get_academicLoginMessage());
+
+				Logger.getLogger("RegLogger").info(answer);
+
+				splittedAnswer = StrManip.filterOutParamsForNextMessage(answer,
+						"setFormActionAndSubmitAcLogInNew");
+
+				break;
+
+			} catch (Exception e) {
+				num_of_tries--;
+
+				try {
+					Thread.sleep(WAITING_IN_MILISECONDS);
+				} catch (Exception e2) {
+				}
+			}
+		}
 
 		get_userInfo().setRc_rowid(splittedAnswer[1]);
 		get_regInfo().set_rn_student_degree(splittedAnswer[3]);
