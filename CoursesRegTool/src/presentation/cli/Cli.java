@@ -62,9 +62,10 @@ public class Cli {
 		
 		//	tell the controller to start
 		// TODO:	get_controller().startTheRegistrationUsingThreads();
-		get_controller().startTheRegistration();
+		// GOOD:	get_controller().startTheRegistration();
 		// TODO:	get_controller().startTheRegistrationExperimental();
 		// TODO:	get_controller().registerForever();
+		get_controller().registerForeverExperimental();
 	}
 
 	protected String retrievePassword() throws IOException {
