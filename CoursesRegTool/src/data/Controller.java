@@ -27,9 +27,14 @@ import data.message.LoginMessage;
  */
 public class Controller {
 
-	private static final int WAITING_IN_SECONDS = 4;
-	private static final int WAITING_IN_MILISECONDS = WAITING_IN_SECONDS * 1000;
-	private static final long ROUND_TIME_IN_MINUTES = 5;
+	private static final long WAITING_IN_SECONDS = 2;
+	private static final long WAITING_IN_MILISECONDS = WAITING_IN_SECONDS * 1000;
+
+	private static final long WAITING_IN_MINUTES_WHEN_FAILED = 17;
+	private static final long WAITING_IN_SECONDS_WHEN_FAILED = WAITING_IN_MINUTES_WHEN_FAILED * 60;
+	private static final long WAITING_IN_MILISECONDS_WHEN_FAILED = WAITING_IN_SECONDS_WHEN_FAILED * 1000;
+
+	private static final long ROUND_TIME_IN_MINUTES = 7;
 	private static final long ROUND_TIME_IN_SECONDS = ROUND_TIME_IN_MINUTES * 60;
 	private static final long ROUND_TIME_IN_MILISECONDS = ROUND_TIME_IN_SECONDS * 1000;
 
@@ -245,41 +250,56 @@ public class Controller {
 			}
 		});
 
-		try {
+		boolean loginSucceded = false;
 
-			// send login messages and receive an answer
-			sendLoginMsg();
+		while (_keepOn) {
 
-			// send academic login messages and receive an answer
-			sendAcademicLoginMsg();
+			try {
 
-			// send add semester messages and receive an answer
-			sendAddSemesterMsg();
+				loginSucceded = false;
 
-			Date startTime = new Date();
+				// send login messages and receive an answer
+				sendLoginMsg();
 
-			while (_keepOn
-					&& (new Date().getTime() - startTime.getTime() < ROUND_TIME_IN_MILISECONDS)) {
+				// send academic login messages and receive an answer
+				sendAcademicLoginMsg();
 
-				for (CourseInfo cInfo : this._coursesInfo) {
+				// send add semester messages and receive an answer
+				sendAddSemesterMsg();
 
-					// register to a course
-					new RegThread(cInfo, get_userInfo(), get_regInfo(),
-							get_counter()).run();
+				loginSucceded = true;
+				Date startTime = new Date();
+
+				while (_keepOn
+						&& (new Date().getTime() - startTime.getTime() < ROUND_TIME_IN_MILISECONDS)) {
+
+					for (CourseInfo cInfo : this._coursesInfo) {
+
+						// register to a course
+						new RegThread(cInfo, get_userInfo(), get_regInfo(),
+								get_counter()).run();
+					}
+
+					try {
+						Thread.sleep(WAITING_IN_MILISECONDS);
+					} catch (Exception e) {
+					}
 				}
+			} catch (Exception e) {
 
-				try {
-					Thread.sleep(WAITING_IN_MILISECONDS);
-				} catch (Exception e) {
+				Logger.getLogger("RegLogger").severe(e.getMessage());
+			} finally {
+
+				// generate leave packet
+				sendGoodByeMsg();
+
+				if (!loginSucceded) {
+					try {
+						Thread.sleep(WAITING_IN_MILISECONDS_WHEN_FAILED);
+					} catch (Exception e) {
+					}
 				}
 			}
-		} catch (Exception e) {
-
-			Logger.getLogger("RegLogger").severe(e.getMessage());
-		} finally {
-
-			// generate leave packet
-			sendGoodByeMsg();
 		}
 
 		setNetController(new NetController());
