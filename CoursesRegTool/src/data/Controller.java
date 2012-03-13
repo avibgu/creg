@@ -27,7 +27,7 @@ import data.message.LoginMessage;
  */
 public class Controller {
 
-	private static final long WAITING_IN_SECONDS = 2;
+	private static final long WAITING_IN_SECONDS = 3;
 	private static final long WAITING_IN_MILISECONDS = WAITING_IN_SECONDS * 1000;
 
 	private static final long WAITING_IN_MINUTES_WHEN_FAILED = 17;
@@ -370,8 +370,12 @@ public class Controller {
 				break;
 
 			} catch (Exception e) {
+				
 				num_of_tries--;
 
+				if (0 == num_of_tries)
+					throw e;
+				
 				try {
 					Thread.sleep(WAITING_IN_MILISECONDS);
 				} catch (Exception e2) {
