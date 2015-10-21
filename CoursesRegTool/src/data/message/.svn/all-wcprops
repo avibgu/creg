@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/!svn/ver/38/CoursesRegTool/src/data/message
+END
+AcademicLoginMessage.java
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/!svn/ver/14/CoursesRegTool/src/data/message/AcademicLoginMessage.java
+END
+ByeMessage.java
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/!svn/ver/22/CoursesRegTool/src/data/message/ByeMessage.java
+END
+Message.java
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/!svn/ver/4/CoursesRegTool/src/data/message/Message.java
+END
+AddSemesterMessage.java
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/!svn/ver/17/CoursesRegTool/src/data/message/AddSemesterMessage.java
+END
+LoginMessage.java
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/!svn/ver/17/CoursesRegTool/src/data/message/LoginMessage.java
+END
+AddCourseMessage.java
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/!svn/ver/38/CoursesRegTool/src/data/message/AddCourseMessage.java
+END
